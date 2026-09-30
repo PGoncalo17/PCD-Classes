@@ -5,18 +5,18 @@ public class IntQueue {
     private int count;
 
     public IntQueue(int capacity){
-        queue = new int[capacity];
-        first = -1;
-        last = -1;
-        count = 0;
+        this.queue = new int[capacity];
+        this.first = 0;
+        this.last = 0;
+        this.count = 0;
     }
 
     public int next(int i){
         return (i+1) % queue.length;
     }
 
-    public boolean empty(){
-        return first == -1;
+    public synchronized boolean empty(){
+        return count == 0;
     }
 
     public synchronized int peek(){
@@ -27,23 +27,23 @@ public class IntQueue {
     public synchronized int poll(){
         if(empty()) throw new IllegalStateException("Error: Queue is empty");
         else{
-            first = next(first);
             int value = queue[first];
-            count ++;
+            first = next(first);
+            count --;
             return value;
         }
     }
 
     public synchronized void offer(int item){
-        if(first == last) throw new IllegalStateException("Error: Queue is full");
+        if(count == queue.length) throw new IllegalStateException("Error: Queue is full");
         else{
-            last = next(last);
             queue[last] = item;
-            count--;
+            last = next(last);
+            count++;
         }
     }
 
-    public int size(){
+    public synchronized int size(){
         return count;
     }
 

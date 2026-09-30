@@ -29,7 +29,7 @@ public class QueueThread extends Thread {
             threads[i].start();
         }
 
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < numThreads; i++){
             try{
                 threads[i].join();
             } catch (InterruptedException e){}

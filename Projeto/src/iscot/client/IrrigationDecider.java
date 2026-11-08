@@ -3,9 +3,7 @@ package iscot.client;
 import iscot.enums.Areas;
 import iscot.enums.Type;
 import iscot.events.AreaIrrigationOrderEvent;
-import iscot.events.AreaLightingOrderEvent;
 import iscot.events.GroundMoistureSensorEvent;
-import iscot.events.LightSensorEvent;
 import iscot.events.RegistrationEvent;
 
 public class IrrigationDecider {

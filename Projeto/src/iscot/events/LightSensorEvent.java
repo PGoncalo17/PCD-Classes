@@ -10,13 +10,13 @@ public class LightSensorEvent extends SensorEvent{
         this.lightSensorValue = lightSensorValue;
     }
 
-    public double getLighSensoValue(){
+    public double getLighSensorValue(){
         return lightSensorValue;
     }
 
     @Override 
     public String toString(){
-        return "[SENSOR LUZ] " + super.toString() + " | LUZ: " + getLighSensoValue() + "lux";
+        return "[SENSOR LUZ] " + super.toString() + " | LUZ: " + getLighSensorValue() + "lux";
     }
     
 }

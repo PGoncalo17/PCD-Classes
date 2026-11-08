@@ -1,21 +1,15 @@
 package iscot.client;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.net.UnknownHostException;
-
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import iscot.client.gui.LightIcon;
 import iscot.client.gui.VentilatorIcon;
 import iscot.enums.Areas;
 import iscot.enums.Type;
+import iscot.events.AreaVentilationOrderEvent;
+import iscot.events.RegistrationEvent;
+import java.awt.BorderLayout;
+import java.io.IOException;
+import java.net.UnknownHostException;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class Ventilator {
 
@@ -33,11 +27,11 @@ public class Ventilator {
 		if(args.length!=3) {
 			System.err.println("Invalid arguments!");
 		}
-		else {
-			// TODO connect to server
-			
-			// TODO register with the server
+		else {			
+			// register with the server
 			Areas area=Areas.valueOf(args[2]);
+			RegistrationEvent regEvent = new RegistrationEvent(area, Type.ACTUATOR);
+			System.out.println("Atuador de Ventilação registado no sistema: " + regEvent);
 			
 			JFrame janela = new JFrame("Ventilador em "+area);
 			janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -60,7 +54,17 @@ public class Ventilator {
 
 			// TODO: receive and handle messages from server
 			
-			// TODO: for first phase: create an appropriate event hardcoded locally and change the GUI accordingly
+			// appropriate event hardcoded locally and change the GUI accordingly
+			Thread.sleep(3000);
+			AreaVentilationOrderEvent ordemLigar = new AreaVentilationOrderEvent(area, true);
+			System.out.println("Evento de ordem recebido: " + ordemLigar);
+			ventilator.setAtivo(ordemLigar.isActive());
+			
+			Thread.sleep(4000);
+			AreaVentilationOrderEvent ordemDesligar = new AreaVentilationOrderEvent(area, false);
+			System.out.println("Evento de ordem recebido: " + ordemDesligar);
+			ventilator.setAtivo(ordemDesligar.isActive());
+
 		}
 	}
 }

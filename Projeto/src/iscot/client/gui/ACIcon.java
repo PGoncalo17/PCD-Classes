@@ -1,9 +1,7 @@
 package iscot.client.gui;
 
-import java.awt.*;
-import java.awt.geom.*;
-
 import iscot.enums.AirConditioningMode;
+import java.awt.*;
 
 public class ACIcon extends ComponentState {
 	

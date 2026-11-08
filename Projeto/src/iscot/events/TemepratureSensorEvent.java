@@ -3,14 +3,14 @@ package iscot.events;
 import iscot.enums.Areas;
 
 public class TemepratureSensorEvent extends SensorEvent{
-    private final int temperatureValue;
+    private final double temperatureValue;
 
-    public TemepratureSensorEvent(Areas area, int temperatureValue){
+    public TemepratureSensorEvent(Areas area, double temperatureValue){
         super(area);
         this.temperatureValue = temperatureValue;
     }
 
-    public int getTemperatureValue(){
+    public double getTemperatureValue(){
         return temperatureValue;
     }
 

@@ -3,10 +3,10 @@ package iscot.events;
 import iscot.enums.Areas;
 import iscot.enums.Type;
 
-public abstract class RegistrationEvent extends Event {
+public class RegistrationEvent extends Event {
     private final Type type;
 
-    protected RegistrationEvent(Areas area, Type type){
+    public RegistrationEvent(Areas area, Type type){
         super(area);
         this.type = type;
     }

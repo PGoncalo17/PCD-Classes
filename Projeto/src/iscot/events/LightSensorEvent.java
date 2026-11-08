@@ -3,14 +3,14 @@ package iscot.events;
 import iscot.enums.Areas;
 
 public class LightSensorEvent extends SensorEvent{
-    private final int lightSensorValue;
+    private final double lightSensorValue;
 
-    public LightSensorEvent(Areas area, int lightSensorValue){
+    public LightSensorEvent(Areas area, double lightSensorValue){
         super(area);
         this.lightSensorValue = lightSensorValue;
     }
 
-    public int getLighSensoValue(){
+    public double getLighSensoValue(){
         return lightSensorValue;
     }
 

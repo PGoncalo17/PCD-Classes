@@ -1,6 +1,7 @@
 package iscot.client;
 
 import iscot.client.gui.ACIcon;
+import iscot.enums.AirConditioningMode;
 import iscot.enums.Areas;
 import iscot.enums.Type;
 import iscot.events.AreaTemperatureOrderEvent;
@@ -56,14 +57,24 @@ public class AirConditioning {
 			
 			// appropriate event hardcoded locally and change the GUI accordingly
 			Thread.sleep(3000);
-			AreaTemperatureOrderEvent ordemLigar = new AreaTemperatureOrderEvent(area, true);
-			System.out.println("Evento de ordem recebido: " + ordemLigar);
-			ac.setAtivo(ordemLigar.isActive());
+			AreaTemperatureOrderEvent ordemFrio = new AreaTemperatureOrderEvent(area, AirConditioningMode.Frio);
+			System.out.println("Evento de ordem recebido: " + ordemFrio);
+			ac.setModo(ordemFrio.getMode());
+			
+			Thread.sleep(3000);
+			AreaTemperatureOrderEvent ordemAquecimento = new AreaTemperatureOrderEvent(area, AirConditioningMode.Aquecimento);
+			System.out.println("Evento de ordem recebido: " + ordemFrio);
+			ac.setModo(ordemAquecimento.getMode());
+			
+			Thread.sleep(3000);
+			AreaTemperatureOrderEvent ordemVentilacao = new AreaTemperatureOrderEvent(area, AirConditioningMode.Ventilacao);
+			System.out.println("Evento de ordem recebido: " + ordemFrio);
+			ac.setModo(ordemVentilacao.getMode());
 			
 			Thread.sleep(4000);
-			AreaTemperatureOrderEvent ordemDesligar = new AreaTemperatureOrderEvent(area, false);
+			AreaTemperatureOrderEvent ordemDesligar = new AreaTemperatureOrderEvent(area, AirConditioningMode.Desligado);
 			System.out.println("Evento de ordem recebido: " + ordemDesligar);
-			ac.setAtivo(ordemDesligar.isActive());
+			ac.setModo(ordemDesligar.getMode());
 
 		}
 	}

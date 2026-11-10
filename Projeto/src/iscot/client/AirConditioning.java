@@ -63,12 +63,12 @@ public class AirConditioning {
 			
 			Thread.sleep(3000);
 			AreaTemperatureOrderEvent ordemAquecimento = new AreaTemperatureOrderEvent(area, AirConditioningMode.Aquecimento);
-			System.out.println("Evento de ordem recebido: " + ordemFrio);
+			System.out.println("Evento de ordem recebido: " + ordemAquecimento);
 			ac.setModo(ordemAquecimento.getMode());
 			
 			Thread.sleep(3000);
 			AreaTemperatureOrderEvent ordemVentilacao = new AreaTemperatureOrderEvent(area, AirConditioningMode.Ventilacao);
-			System.out.println("Evento de ordem recebido: " + ordemFrio);
+			System.out.println("Evento de ordem recebido: " + ordemVentilacao);
 			ac.setModo(ordemVentilacao.getMode());
 			
 			Thread.sleep(4000);

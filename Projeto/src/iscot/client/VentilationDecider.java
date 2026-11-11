@@ -1,7 +1,9 @@
 package iscot.client;
 
+import iscot.enums.AirConditioningMode;
 import iscot.enums.Areas;
 import iscot.enums.Type;
+import iscot.events.AreaTemperatureOrderEvent;
 import iscot.events.AreaVentilationOrderEvent;
 import iscot.events.HumiditySensorEvent;
 import iscot.events.RegistrationEvent;
@@ -21,8 +23,17 @@ public class VentilationDecider {
             System.out.println("Leitura recebida: " + sensorEvent);
 
             boolean ligar = sensorEvent.getHumidityValue() > 70;
-            AreaVentilationOrderEvent ordem = new AreaVentilationOrderEvent(area, ligar);
-            System.out.println("Ordem emitida: " + ordem);
+            AreaVentilationOrderEvent ordemVent = new AreaVentilationOrderEvent(area, ligar);
+
+            AreaTemperatureOrderEvent acState = new AreaTemperatureOrderEvent(area, AirConditioningMode.Desligado);
+
+            if (acState.getMode() != AirConditioningMode.Desligado) {
+                System.out.println("Ordem emitida: " + ordemVent);
+            } else {
+                AreaTemperatureOrderEvent ordemAc = new AreaTemperatureOrderEvent(area, AirConditioningMode.Ventilacao);
+                System.out.println("Ordens emitidas: " + ordemVent + ",  " + ordemAc);
+            }
+            
 
         }
     }

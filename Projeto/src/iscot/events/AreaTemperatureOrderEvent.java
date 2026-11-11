@@ -19,7 +19,7 @@ public class AreaTemperatureOrderEvent extends HighLevelOrderEvent {
     @Override
     public String toString() {
         String state = (mode == AirConditioningMode.Desligado) ? "TURN OF" : "TURN ON (" + mode + ")";
-        return "[Temperature ORDER] " + super.toString() + " | ACTION: " + state;
+        return "[TEMPERATURE ORDER] " + super.toString() + " | ACTION: " + state;
     }
     
 }

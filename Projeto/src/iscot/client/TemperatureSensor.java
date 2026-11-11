@@ -6,13 +6,12 @@ import iscot.enums.Type;
 import iscot.events.RegistrationEvent;
 import iscot.events.TemepratureSensorEvent;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.io.IOException;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import java.awt.Dimension;
 
 public class TemperatureSensor {
 

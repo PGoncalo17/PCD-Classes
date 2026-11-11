@@ -17,7 +17,7 @@ public class AreaVentilationOrderEvent extends HighLevelOrderEvent {
     @Override
     public String toString() {
         String state = active ? "TURN ON" : "TURN OF";
-        return "[Temperature ORDER] " + super.toString() + " | ACTION: " + state;
+        return "[VENTILATION ORDER] " + super.toString() + " | ACTION: " + state;
     }
     
 }

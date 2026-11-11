@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import java.awt.Dimension;
 
 public class Ventilator {
 
@@ -42,6 +45,13 @@ public class Ventilator {
 			JPanel painel=new JPanel();
 			painel.setLayout(new BorderLayout());
 			VentilatorIcon ventilator = new VentilatorIcon();
+
+			JTextArea log = new JTextArea();
+			log.setEditable(false);
+			JScrollPane logPane = new JScrollPane(log);
+			logPane.setPreferredSize(new Dimension(400, 100));
+			painel.add(logPane, BorderLayout.SOUTH);
+
 			painel.add(ventilator,BorderLayout.CENTER);
 			janela.setContentPane(painel);
 			janela.setLocation(600, 400);
@@ -58,11 +68,13 @@ public class Ventilator {
 			Thread.sleep(3000);
 			AreaVentilationOrderEvent ordemLigar = new AreaVentilationOrderEvent(area, true);
 			System.out.println("Evento de ordem recebido: " + ordemLigar);
+			log.append("Evento de ordem recebido: " + ordemLigar + "\n");
 			ventilator.setAtivo(ordemLigar.isActive());
 			
 			Thread.sleep(4000);
 			AreaVentilationOrderEvent ordemDesligar = new AreaVentilationOrderEvent(area, false);
 			System.out.println("Evento de ordem recebido: " + ordemDesligar);
+			log.append("Evento de ordem recebido: " + ordemDesligar + "\n");
 			ventilator.setAtivo(ordemDesligar.isActive());
 
 		}

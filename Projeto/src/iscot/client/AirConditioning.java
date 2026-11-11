@@ -7,10 +7,13 @@ import iscot.enums.Type;
 import iscot.events.AreaTemperatureOrderEvent;
 import iscot.events.RegistrationEvent;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class AirConditioning {
 
@@ -43,6 +46,13 @@ public class AirConditioning {
 			JPanel painel=new JPanel();
 			painel.setLayout(new BorderLayout());
 			ACIcon ac = new ACIcon();
+			
+			JTextArea log = new JTextArea();
+			log.setEditable(false);
+			JScrollPane logPane = new JScrollPane(log);
+			logPane.setPreferredSize(new Dimension(400, 100));
+			painel.add(logPane, BorderLayout.SOUTH);
+
 			painel.add(ac, BorderLayout.CENTER);
 			janela.setContentPane(painel);
 			janela.setLocation(600, 400);
@@ -59,21 +69,25 @@ public class AirConditioning {
 			Thread.sleep(3000);
 			AreaTemperatureOrderEvent ordemFrio = new AreaTemperatureOrderEvent(area, AirConditioningMode.Frio);
 			System.out.println("Evento de ordem recebido: " + ordemFrio);
+			log.append("Evento de ordem recebido: " + ordemFrio + "\n");
 			ac.setModo(ordemFrio.getMode());
 			
 			Thread.sleep(3000);
 			AreaTemperatureOrderEvent ordemAquecimento = new AreaTemperatureOrderEvent(area, AirConditioningMode.Aquecimento);
 			System.out.println("Evento de ordem recebido: " + ordemAquecimento);
+			log.append("Evento de ordem recebido: " + ordemAquecimento + "\n");
 			ac.setModo(ordemAquecimento.getMode());
 			
 			Thread.sleep(3000);
 			AreaTemperatureOrderEvent ordemVentilacao = new AreaTemperatureOrderEvent(area, AirConditioningMode.Ventilacao);
 			System.out.println("Evento de ordem recebido: " + ordemVentilacao);
+			log.append("Evento de ordem recebido: " + ordemVentilacao + "\n");
 			ac.setModo(ordemVentilacao.getMode());
 			
 			Thread.sleep(4000);
 			AreaTemperatureOrderEvent ordemDesligar = new AreaTemperatureOrderEvent(area, AirConditioningMode.Desligado);
 			System.out.println("Evento de ordem recebido: " + ordemDesligar);
+			log.append("Evento de ordem recebido: " + ordemDesligar + "\n");
 			ac.setModo(ordemDesligar.getMode());
 
 		}

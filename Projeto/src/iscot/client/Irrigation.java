@@ -6,10 +6,13 @@ import iscot.enums.Type;
 import iscot.events.AreaIrrigationOrderEvent;
 import iscot.events.RegistrationEvent;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class Irrigation {
 
@@ -42,6 +45,13 @@ public class Irrigation {
 			JPanel painel=new JPanel();
 			painel.setLayout(new BorderLayout());
 			IrrigationIcon irrigator = new IrrigationIcon();
+
+			JTextArea log = new JTextArea();
+			log.setEditable(false);
+			JScrollPane logPane = new JScrollPane(log);
+			logPane.setPreferredSize(new Dimension(400, 100));
+			painel.add(logPane, BorderLayout.SOUTH);
+
 			painel.add(irrigator,BorderLayout.CENTER);
 			janela.setContentPane(painel);
 			janela.setLocation(600, 400);
@@ -58,11 +68,13 @@ public class Irrigation {
 			Thread.sleep(3000);
 			AreaIrrigationOrderEvent ordemLigar = new AreaIrrigationOrderEvent(area, true);
 			System.out.println("Evento de ordem recebido: " + ordemLigar);
+			log.append("Evento de ordem recebido: " + ordemLigar + "\n");
 			irrigator.setAtivo(ordemLigar.isActive());
 			
 			Thread.sleep(4000);
 			AreaIrrigationOrderEvent ordemDesligar = new AreaIrrigationOrderEvent(area, false);
 			System.out.println("Evento de ordem recebido: " + ordemDesligar);
+			log.append("Evento de ordem recebido: " + ordemDesligar + "\n");
 			irrigator.setAtivo(ordemDesligar.isActive());
 
 		}

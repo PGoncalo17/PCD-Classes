@@ -6,10 +6,13 @@ import iscot.enums.Type;
 import iscot.events.AreaLightingOrderEvent;
 import iscot.events.RegistrationEvent;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class Light {
 
@@ -42,6 +45,13 @@ public class Light {
 			JPanel painel=new JPanel();
 			painel.setLayout(new BorderLayout());
 			LightIcon light = new LightIcon();
+
+			JTextArea log = new JTextArea();
+			log.setEditable(false);
+			JScrollPane logPane = new JScrollPane(log);
+			logPane.setPreferredSize(new Dimension(400, 100));
+			painel.add(logPane, BorderLayout.SOUTH);
+			
 			painel.add(light,BorderLayout.CENTER);
 			janela.setContentPane(painel);
 			janela.setLocation(600, 400);
@@ -58,11 +68,13 @@ public class Light {
 			Thread.sleep(3000);
 			AreaLightingOrderEvent ordemLigar = new AreaLightingOrderEvent(area, true);
 			System.out.println("Evento de ordem recebido: " + ordemLigar);
+			log.append("Evento de ordem recebido: " + ordemLigar + "\n");
 			light.setAtivo(ordemLigar.isActive());
 			
 			Thread.sleep(4000);
 			AreaLightingOrderEvent ordemDesligar = new AreaLightingOrderEvent(area, false);
 			System.out.println("Evento de ordem recebido: " + ordemDesligar);
+			log.append("Evento de ordem recebido: " + ordemDesligar + "\n");
 			light.setAtivo(ordemDesligar.isActive());
 
 		}

@@ -21,18 +21,21 @@ public class VentilationDecider {
             Thread.sleep(3000);
             HumiditySensorEvent sensorEvent = new HumiditySensorEvent(area, 75);
             System.out.println("Leitura recebida: " + sensorEvent);
-
-            boolean ligar = sensorEvent.getHumidityValue() > 70;
-            AreaVentilationOrderEvent ordemVent = new AreaVentilationOrderEvent(area, ligar);
-
             AreaTemperatureOrderEvent acState = new AreaTemperatureOrderEvent(area, AirConditioningMode.Desligado);
 
-            if (acState.getMode() != AirConditioningMode.Desligado) {
-                System.out.println("Ordem emitida: " + ordemVent);
-            } else {
-                AreaTemperatureOrderEvent ordemAc = new AreaTemperatureOrderEvent(area, AirConditioningMode.Ventilacao);
-                System.out.println("Ordens emitidas: " + ordemVent + ",  " + ordemAc);
+            boolean ligar = sensorEvent.getHumidityValue() > 70;
+
+            if (ligar){
+                AreaVentilationOrderEvent ordemVent = new AreaVentilationOrderEvent(area, ligar);
+                if (acState.getMode() != AirConditioningMode.Desligado) {
+                    System.out.println("Ordem emitida: " + ordemVent);
+                } else {
+                    AreaTemperatureOrderEvent ordemAc = new AreaTemperatureOrderEvent(area, AirConditioningMode.Ventilacao);
+                    System.out.println("Ordens emitidas: " + ordemVent + ",  " + ordemAc);
+                }
             }
+
+
             
 
         }

@@ -1,4 +1,4 @@
-package iscot.client;
+package iscot.client.sensors;
 
 import iscot.client.gui.SensorControl;
 import iscot.enums.Areas;

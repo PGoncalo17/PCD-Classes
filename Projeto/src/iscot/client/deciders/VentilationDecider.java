@@ -1,4 +1,4 @@
-package iscot.client;
+package iscot.client.deciders;
 
 import iscot.enums.AirConditioningMode;
 import iscot.enums.Areas;

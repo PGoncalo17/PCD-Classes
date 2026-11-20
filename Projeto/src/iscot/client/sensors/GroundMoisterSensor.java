@@ -1,19 +1,19 @@
-package iscot.client;
+package iscot.client.sensors;
 
 import iscot.client.gui.SensorControl;
 import iscot.enums.Areas;
 import iscot.enums.Type;
+import iscot.events.GroundMoistureSensorEvent;
 import iscot.events.RegistrationEvent;
-import iscot.events.TemepratureSensorEvent;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import java.awt.Dimension;
 
-public class TemperatureSensor {
+public class GroundMoisterSensor {
 
 	/**
 	 * 
@@ -35,7 +35,7 @@ public class TemperatureSensor {
 			System.out.println("Cliente registado no sistema: " + regEvent);
 			
 
-			JFrame janela = new JFrame("Temperatura em "+area);
+			JFrame janela = new JFrame("Humidade em " + area);
 			janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 			
@@ -47,11 +47,11 @@ public class TemperatureSensor {
 
 			JPanel painel=new JPanel();
 			painel.setLayout(new BorderLayout());
-			SensorControl sensorControl= new SensorControl( "Cº", "Temperatura - " + area, "Cº",
-				    0, 40, 1, 20,
+			SensorControl sensorControl= new SensorControl( "☀", "Humidade Solo- " + area, "%",
+				    0, 100, 1, 35,
 				    valor -> {
-				    	// handle change in sensor
-						TemepratureSensorEvent event = new TemepratureSensorEvent(area, valor);
+				    	// TODO handle change in sensor
+						GroundMoistureSensorEvent event = new GroundMoistureSensorEvent(area, valor);
 						System.out.println("Evento gerado pelo sensor: " + event);
 				    	System.out.println("Mudou para:"+valor);
 						log.append("Evento gerado pelo sensor: " + event + "\n");

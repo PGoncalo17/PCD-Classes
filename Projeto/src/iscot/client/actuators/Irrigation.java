@@ -1,4 +1,4 @@
-package iscot.client;
+package iscot.client.actuators;
 
 import iscot.client.gui.IrrigationIcon;
 import iscot.enums.Areas;

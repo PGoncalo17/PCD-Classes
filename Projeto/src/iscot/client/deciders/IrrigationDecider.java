@@ -1,4 +1,4 @@
-package iscot.client;
+package iscot.client.deciders;
 
 import iscot.enums.Areas;
 import iscot.enums.Type;

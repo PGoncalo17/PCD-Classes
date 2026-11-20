@@ -1,4 +1,4 @@
-package iscot.client;
+package iscot.client.actuators;
 
 import iscot.client.gui.VentilatorIcon;
 import iscot.enums.Areas;

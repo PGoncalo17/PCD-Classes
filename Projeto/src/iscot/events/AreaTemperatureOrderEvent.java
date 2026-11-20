@@ -5,7 +5,7 @@ import iscot.enums.Areas;
 
 public class AreaTemperatureOrderEvent extends HighLevelOrderEvent {
     private final AirConditioningMode mode;
-    // private final boolean active; // Reformar para airconditioning mode
+    private static final long serialVersionUID = 1L;
 
     public AreaTemperatureOrderEvent(Areas area, AirConditioningMode mode) {
         super(area);

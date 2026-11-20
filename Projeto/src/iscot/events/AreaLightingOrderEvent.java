@@ -5,6 +5,7 @@ import iscot.enums.Areas;
 
 public class AreaLightingOrderEvent extends HighLevelOrderEvent {
     private final boolean active;
+    private static final long serialVersionUID = 1L;
 
     public AreaLightingOrderEvent(Areas area, boolean active) {
         super(area);

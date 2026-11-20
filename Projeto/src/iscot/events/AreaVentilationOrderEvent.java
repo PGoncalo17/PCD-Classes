@@ -4,6 +4,7 @@ import iscot.enums.Areas;
 
 public class AreaVentilationOrderEvent extends HighLevelOrderEvent {
     private final boolean active;
+    private static final long serialVersionUID = 1L;
 
     public AreaVentilationOrderEvent(Areas area, boolean active) {
         super(area);

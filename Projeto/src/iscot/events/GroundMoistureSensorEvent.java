@@ -4,6 +4,7 @@ import iscot.enums.Areas;
 
 public class GroundMoistureSensorEvent extends SensorEvent {
     private final double groundMoistureValue;
+    private static final long serialVersionUID = 1L;
 
     public GroundMoistureSensorEvent(Areas area, double groundMoistureValue){
         super(area);

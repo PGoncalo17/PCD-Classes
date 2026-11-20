@@ -5,6 +5,7 @@ import iscot.enums.Type;
 
 public class RegistrationEvent extends Event {
     private final Type type;
+    private static final long serialVersionUID = 1L;
 
     public RegistrationEvent(Areas area, Type type){
         super(area);

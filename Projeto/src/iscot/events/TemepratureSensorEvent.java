@@ -4,6 +4,7 @@ import iscot.enums.Areas;
 
 public class TemepratureSensorEvent extends SensorEvent{
     private final double temperatureValue;
+    private static final long serialVersionUID = 1L;
 
     public TemepratureSensorEvent(Areas area, double temperatureValue){
         super(area);

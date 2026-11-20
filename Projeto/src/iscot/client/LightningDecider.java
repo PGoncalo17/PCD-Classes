@@ -20,7 +20,7 @@ public class LightningDecider {
             LightSensorEvent sensorEvent = new LightSensorEvent(area, 20);
             System.out.println("Leitura recebida: " + sensorEvent);
 
-            boolean ligar = sensorEvent.getLighSensorValue() < 30;
+            boolean ligar = sensorEvent.getLightSensorValue() < 30;
             AreaLightingOrderEvent ordem = new AreaLightingOrderEvent(area, ligar);
             System.out.println("Ordem emitida: " + ordem);
 

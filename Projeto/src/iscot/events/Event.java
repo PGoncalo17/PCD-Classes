@@ -1,11 +1,13 @@
 package iscot.events;
 import iscot.enums.Areas;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-public abstract class Event{
+public abstract class Event implements Serializable {
     private final Areas area;
     private final LocalDateTime timestamp;
+    private static final long serialVersionUID = 1L;
 
     protected Event(Areas area){
         this.area = area;

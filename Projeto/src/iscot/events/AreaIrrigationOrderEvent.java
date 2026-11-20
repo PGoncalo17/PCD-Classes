@@ -4,6 +4,7 @@ import iscot.enums.Areas;
 
 public class AreaIrrigationOrderEvent extends HighLevelOrderEvent {
     private final boolean active;
+    private static final long serialVersionUID = 1L;
 
     public AreaIrrigationOrderEvent(Areas area, boolean active){
         super(area);

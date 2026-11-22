@@ -70,24 +70,6 @@ public class VentilationDecider extends DeciderClient {
         VentilationDecider decider = new VentilationDecider(ip, porto, area);
 
         decider.runClient();
-
-            // Local Simulation
-            Thread.sleep(3000);
-            HumiditySensorEvent sensorEvent = new HumiditySensorEvent(area, 75);
-            System.out.println("Leitura recebida: " + sensorEvent);
-            AreaTemperatureOrderEvent acState = new AreaTemperatureOrderEvent(area, AirConditioningMode.Desligado);
-
-            boolean ligar = sensorEvent.getHumidityValue() > 70;
-
-            if (ligar){
-                AreaVentilationOrderEvent ordemVent = new AreaVentilationOrderEvent(area, ligar);
-                if (acState.getMode() != AirConditioningMode.Desligado) {
-                    System.out.println("Ordem emitida: " + ordemVent);
-                } else {
-                    AreaTemperatureOrderEvent ordemAc = new AreaTemperatureOrderEvent(area, AirConditioningMode.Ventilacao);
-                    System.out.println("Ordens emitidas: " + ordemVent + ",  " + ordemAc);
-                }
-            }
     }
     
 }

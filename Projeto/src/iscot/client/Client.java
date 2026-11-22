@@ -7,6 +7,7 @@ import iscot.events.RegistrationEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ConnectException;
 import java.net.Socket;
 
 
@@ -30,6 +31,10 @@ public abstract class Client {
         try {
             connectToServer();
             execute();
+        } catch (ConnectException e) {
+            System.err.println("Não foi possível conectar com o Servidor");
+        }  catch (java.io.EOFException | java.net.SocketException e) {
+            System.err.println("A ligação ao servidor foi encerrada."); 
         } catch (Exception e) { }
         finally {
             try {

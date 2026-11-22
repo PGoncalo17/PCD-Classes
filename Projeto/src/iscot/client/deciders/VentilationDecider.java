@@ -19,8 +19,8 @@ public class VentilationDecider extends DeciderClient {
 
     @Override 
     public void processSensorEvent(SensorEvent event) {
-        if (event instanceof TemepratureSensorEvent) {
-            TemepratureSensorEvent tempSensor = (TemepratureSensorEvent) event;
+        if (event instanceof TemepratureSensorEvent temperatureSensorEvent) {
+            TemepratureSensorEvent tempSensor = temperatureSensorEvent;
             double temp = tempSensor.getTemperatureValue();
 
             if (temp < 20) {
@@ -37,8 +37,8 @@ public class VentilationDecider extends DeciderClient {
             }
         }
 
-        if (event instanceof HumiditySensorEvent) {
-            HumiditySensorEvent humiditySensor = (HumiditySensorEvent) event;
+        if (event instanceof HumiditySensorEvent humiditySensorEvent) {
+            HumiditySensorEvent humiditySensor = humiditySensorEvent;
             double humidity = humiditySensor.getHumidityValue();
             lastHumidity = humidity;
             System.out.println("Recebido sensor de humidade: " + humidity + "%");
@@ -57,7 +57,7 @@ public class VentilationDecider extends DeciderClient {
     }
 
 
-    public static void main(String[] args) throws NumberFormatException, InterruptedException {
+    public static void main(String[] args) throws NumberFormatException {
         if (args.length != 3){
             System.err.println("Invalid arguments!");
             return;
@@ -65,7 +65,7 @@ public class VentilationDecider extends DeciderClient {
 
         String ip = args[0];
         int porto = Integer.parseInt(args[1]);
-        Areas area = Areas.valueOf(args[2]);
+        Areas area = Areas.valueOf(args[2].toUpperCase());
 
         VentilationDecider decider = new VentilationDecider(ip, porto, area);
 

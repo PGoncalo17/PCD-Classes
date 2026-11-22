@@ -13,8 +13,8 @@ public class LightningDecider extends DeciderClient {
 
     @Override 
     public void processSensorEvent(SensorEvent event) {
-        if (event instanceof LightSensorEvent) {
-            LightSensorEvent lightEvent = (LightSensorEvent) event;
+        if (event instanceof LightSensorEvent lightSensorEvent) {
+            LightSensorEvent lightEvent = lightSensorEvent;
             double nivelLuz = lightEvent.getLightSensorValue();
             System.out.println("Recebido sensor de luz: " + nivelLuz + "%");
 
@@ -28,7 +28,7 @@ public class LightningDecider extends DeciderClient {
 
 
 
-    public static void main(String[] args) throws NumberFormatException, InterruptedException {
+    public static void main(String[] args) throws NumberFormatException {
         if (args.length != 3){
             System.err.println("Invalid arguments!");
             return;

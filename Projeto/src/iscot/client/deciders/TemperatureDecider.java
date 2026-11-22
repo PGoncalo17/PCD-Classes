@@ -14,8 +14,8 @@ public class TemperatureDecider extends DeciderClient {
 
     @Override
     public void processSensorEvent(SensorEvent event) {
-        if (event instanceof TemepratureSensorEvent) {
-            TemepratureSensorEvent tempSensor = (TemepratureSensorEvent) event;
+        if (event instanceof TemepratureSensorEvent temperatureSensorEvent) {
+            TemepratureSensorEvent tempSensor = temperatureSensorEvent;
             double temp = tempSensor.getTemperatureValue();
             System.out.println("Recebido sensor de temperatura: " + temp + "Cº");
 
@@ -31,7 +31,7 @@ public class TemperatureDecider extends DeciderClient {
         }
     }
 
-    public static void main(String[] args) throws NumberFormatException, InterruptedException {
+    public static void main(String[] args) throws NumberFormatException {
         if (args.length != 3){
             System.err.println("Invalid arguments!");
             return;

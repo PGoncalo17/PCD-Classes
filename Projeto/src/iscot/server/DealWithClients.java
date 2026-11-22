@@ -4,12 +4,12 @@ import iscot.enums.Areas;
 import iscot.enums.Type;
 import iscot.events.Event;
 import iscot.events.RegistrationEvent;
+import java.io.EOFException;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.io.IOException;
 import java.net.SocketException;
-import java.io.EOFException;
 
 public class DealWithClients extends Thread{
     private Socket socket;

@@ -14,8 +14,8 @@ public class IrrigationDecider extends DeciderClient {
 
     @Override 
     public void processSensorEvent(SensorEvent event) {
-        if (event instanceof GroundMoistureSensorEvent) {
-            GroundMoistureSensorEvent groundEvent = (GroundMoistureSensorEvent) event;
+        if (event instanceof GroundMoistureSensorEvent groundMoistureSensorEvent) {
+            GroundMoistureSensorEvent groundEvent = groundMoistureSensorEvent;
             double nivelHumidadeSolo = groundEvent.getGroundMoistureValue();
             System.out.println("Recebido sensor de humidade do solo: " + nivelHumidadeSolo + "%");
 
@@ -27,7 +27,7 @@ public class IrrigationDecider extends DeciderClient {
         }
     }
 
-    public static void main(String[] args) throws NumberFormatException, InterruptedException {
+    public static void main(String[] args) throws NumberFormatException {
         if (args.length != 3){
             System.err.println("Invalid arguments!");
             return;

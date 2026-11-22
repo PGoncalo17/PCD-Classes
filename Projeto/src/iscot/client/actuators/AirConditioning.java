@@ -3,93 +3,84 @@ package iscot.client.actuators;
 import iscot.client.gui.ACIcon;
 import iscot.enums.AirConditioningMode;
 import iscot.enums.Areas;
-import iscot.enums.Type;
 import iscot.events.AreaTemperatureOrderEvent;
-import iscot.events.RegistrationEvent;
+import iscot.events.HighLevelOrderEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.io.IOException;
-import java.net.UnknownHostException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-public class AirConditioning {
+public class AirConditioning extends ActuatorClient {
+	private static final JTextArea log = new JTextArea();
+	private static final ACIcon acIcon = new ACIcon();
 
-	/**
-	 * 
-	 * @param server address and port
-	 * @param roomName: string
-	 * @throws IOException 
-	 * @throws UnknownHostException 
-	 * @throws NumberFormatException 
-	 * @throws InterruptedException 
-	 * @throws ClassNotFoundException 
-	 */
-	public static void main(String[] args) throws NumberFormatException, UnknownHostException, IOException, InterruptedException, ClassNotFoundException {
+	public AirConditioning(String ip, int porto, Areas area) {
+		super(ip, porto, area);
+	}
+
+
+	@Override
+	public void processOrderEvent(HighLevelOrderEvent order) {
+		if (order instanceof AreaTemperatureOrderEvent areaTemperatureOrderEvent) {
+			AreaTemperatureOrderEvent acs = areaTemperatureOrderEvent;
+			if(acs.getMode() == AirConditioningMode.Aquecimento){
+				AreaTemperatureOrderEvent ordemAquecimento = new AreaTemperatureOrderEvent(getArea(), AirConditioningMode.Aquecimento);
+				System.out.println("Evento de ordem recebido: " + ordemAquecimento);
+				log.append("Evento de ordem recebido: " + ordemAquecimento + "\n");
+				acIcon.setModo(ordemAquecimento.getMode());
+			} else if (acs.getMode() == AirConditioningMode.Frio) {
+				AreaTemperatureOrderEvent ordemFrio = new AreaTemperatureOrderEvent(getArea(), AirConditioningMode.Frio);
+				System.out.println("Evento de ordem recebido: " + ordemFrio);
+				log.append("Evento de ordem recebido: " + ordemFrio + "\n");
+				acIcon.setModo(ordemFrio.getMode());
+			} else if (acs.getMode() == AirConditioningMode.Ventilacao) {
+				AreaTemperatureOrderEvent ordemVentilacao = new AreaTemperatureOrderEvent(getArea(), AirConditioningMode.Ventilacao);
+				System.out.println("Evento de ordem recebido: " + ordemVentilacao);
+				log.append("Evento de ordem recebido: " + ordemVentilacao + "\n");
+				acIcon.setModo(ordemVentilacao.getMode());
+			} else {
+				AreaTemperatureOrderEvent ordemDesligar = new AreaTemperatureOrderEvent(getArea(), AirConditioningMode.Desligado);
+				System.out.println("Evento de ordem recebido: " + ordemDesligar);
+				log.append("Evento de ordem recebido: " + ordemDesligar + "\n");
+				acIcon.setModo(ordemDesligar.getMode());
+			}
+		}
+	}
+
+	public static void main(String[] args) throws NumberFormatException {
 		if(args.length!=3) {
 			System.err.println("Invalid arguments!");
+			return;
 		}
-		else {			
-			// register with the server
-			Areas area=Areas.valueOf(args[2]);
-			RegistrationEvent regEvent = new RegistrationEvent(area, Type.ACTUATOR);
-			System.out.println("Atuador de Ventilação registado no sistema: " + regEvent);
-			
-			JFrame janela = new JFrame("Ventilador em "+area);
-			janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		
-			
-			// Criar os componentes gráficos
-			JPanel painel=new JPanel();
-			painel.setLayout(new BorderLayout());
-			ACIcon ac = new ACIcon();
-			
-			JTextArea log = new JTextArea();
-			log.setEditable(false);
-			JScrollPane logPane = new JScrollPane(log);
-			logPane.setPreferredSize(new Dimension(400, 100));
-			painel.add(logPane, BorderLayout.SOUTH);
+		String ip = args[0];
+		int porto = Integer.parseInt(args[1]);
+		Areas area = Areas.valueOf(args[2].toUpperCase());
 
-			painel.add(ac, BorderLayout.CENTER);
-			janela.setContentPane(painel);
-			janela.setLocation(600, 400);
-			janela.setMinimumSize(janela.getSize());
-			janela.pack();
-			janela.setVisible(true);
-			
-			Thread.sleep(5000);
-			ac.setAtivo(true);
+		AirConditioning ac = new AirConditioning(ip, porto, area);
+	
+		JFrame janela = new JFrame("Ventilador em "+area);
+		janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-			// TODO: receive and handle messages from server
+		JPanel painel=new JPanel();
+		painel.setLayout(new BorderLayout());
 			
-			// appropriate event hardcoded locally and change the GUI accordingly
-			Thread.sleep(3000);
-			AreaTemperatureOrderEvent ordemFrio = new AreaTemperatureOrderEvent(area, AirConditioningMode.Frio);
-			System.out.println("Evento de ordem recebido: " + ordemFrio);
-			log.append("Evento de ordem recebido: " + ordemFrio + "\n");
-			ac.setModo(ordemFrio.getMode());
-			
-			Thread.sleep(3000);
-			AreaTemperatureOrderEvent ordemAquecimento = new AreaTemperatureOrderEvent(area, AirConditioningMode.Aquecimento);
-			System.out.println("Evento de ordem recebido: " + ordemAquecimento);
-			log.append("Evento de ordem recebido: " + ordemAquecimento + "\n");
-			ac.setModo(ordemAquecimento.getMode());
-			
-			Thread.sleep(3000);
-			AreaTemperatureOrderEvent ordemVentilacao = new AreaTemperatureOrderEvent(area, AirConditioningMode.Ventilacao);
-			System.out.println("Evento de ordem recebido: " + ordemVentilacao);
-			log.append("Evento de ordem recebido: " + ordemVentilacao + "\n");
-			ac.setModo(ordemVentilacao.getMode());
-			
-			Thread.sleep(4000);
-			AreaTemperatureOrderEvent ordemDesligar = new AreaTemperatureOrderEvent(area, AirConditioningMode.Desligado);
-			System.out.println("Evento de ordem recebido: " + ordemDesligar);
-			log.append("Evento de ordem recebido: " + ordemDesligar + "\n");
-			ac.setModo(ordemDesligar.getMode());
+		log.setEditable(false);
+		JScrollPane logPane = new JScrollPane(log);
+		logPane.setPreferredSize(new Dimension(400, 100));
+		painel.add(logPane, BorderLayout.SOUTH);
 
-		}
+		painel.add(acIcon, BorderLayout.CENTER);
+		janela.setContentPane(painel);
+		janela.setLocation(600, 400);
+		janela.setMinimumSize(janela.getSize());
+		janela.pack();
+		janela.setVisible(true);
+			
+		acIcon.setAtivo(true);
+
+		ac.runClient();
 	}
 }

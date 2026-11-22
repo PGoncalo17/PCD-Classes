@@ -19,7 +19,7 @@ public class TemperatureSensor extends SensorClient {
 	}
 
 	
-	public static void main(String[] args) throws NumberFormatException, InterruptedException {
+	public static void main(String[] args) throws NumberFormatException {
 		if(args.length!=3) {
 			System.err.println("Invalid arguments!");
 			return;

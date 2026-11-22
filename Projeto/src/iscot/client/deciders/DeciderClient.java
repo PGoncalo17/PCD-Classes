@@ -11,7 +11,7 @@ import java.io.IOException;
 public abstract class DeciderClient extends Client {
 
 
-    public DeciderClient(String ip, int porto, Areas area) {
+    protected DeciderClient(String ip, int porto, Areas area) {
         super(ip, porto, area, Type.DECIDER);
     }
 
@@ -22,8 +22,8 @@ public abstract class DeciderClient extends Client {
         while (true) { 
             Event event = receiveEvent();
 
-            if (event instanceof SensorEvent) {
-                processSensorEvent((SensorEvent) event);
+            if (event instanceof SensorEvent sensorEvent) {
+                processSensorEvent(sensorEvent);
             }
         }
     }

@@ -18,7 +18,7 @@ public class LightSensor extends SensorClient {
 		super(ip, porto, area);
 	}
 
-	public static void main(String[] args) throws NumberFormatException, InterruptedException {
+	public static void main(String[] args) throws NumberFormatException {
 		if(args.length!=3) {
 			System.err.println("Invalid arguments!");
 			return;
@@ -55,8 +55,6 @@ public class LightSensor extends SensorClient {
 					valor -> {
 						LightSensorEvent event = new LightSensorEvent(area, valor);
 						sensor.sendEvent(event);
-						System.out.println("Evento gerado pelo sensor: " + event);
-						System.out.println("Mudou para:"+valor);
 						log.append("Evento gerado pelo sensor: " + event + "\n");
 					});
 			painel.add(sensorControl,BorderLayout.CENTER);

@@ -2,81 +2,74 @@ package iscot.client.actuators;
 
 import iscot.client.gui.LightIcon;
 import iscot.enums.Areas;
-import iscot.enums.Type;
 import iscot.events.AreaLightingOrderEvent;
-import iscot.events.RegistrationEvent;
+import iscot.events.HighLevelOrderEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.io.IOException;
-import java.net.UnknownHostException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-public class Light {
+public class Light extends ActuatorClient {
+	private static final JTextArea log = new JTextArea();
+	private static final LightIcon lightIcon = new LightIcon();
 
-	/**
-	 * 
-	 * @param server address and port
-	 * @param roomName: string
-	 * @throws IOException 
-	 * @throws UnknownHostException 
-	 * @throws NumberFormatException 
-	 * @throws InterruptedException 
-	 * @throws ClassNotFoundException 
-	 */
-	public static void main(String[] args) throws NumberFormatException, UnknownHostException, IOException, InterruptedException, ClassNotFoundException {
+	public Light(String ip, int porto, Areas area) {
+		super(ip, porto, area);
+	}
+
+	@Override 
+	public void processOrderEvent(HighLevelOrderEvent order) {
+		if (order instanceof AreaLightingOrderEvent areaLightingOrderEvent) {
+			AreaLightingOrderEvent lights = areaLightingOrderEvent;
+			if (lights.isActive()) {
+				AreaLightingOrderEvent ordemLigar = new AreaLightingOrderEvent(getArea(), true);
+				System.out.println("Evento de ordem recebido: " + ordemLigar);
+				log.append("Evento de ordem recebido: " + ordemLigar + "\n");
+				lightIcon.setAtivo(ordemLigar.isActive());
+			} else {
+				AreaLightingOrderEvent ordemDesligar = new AreaLightingOrderEvent(getArea(), false);
+				System.out.println("Evento de ordem recebido: " + ordemDesligar);
+				log.append("Evento de ordem recebido: " + ordemDesligar + "\n");
+				lightIcon.setAtivo(ordemDesligar.isActive());
+			}
+		}
+	}
+
+
+	public static void main(String[] args) throws NumberFormatException {
 		if(args.length!=3) {
 			System.err.println("Invalid arguments!");
-		}
-		else {			
-			// register with the server
-			Areas area=Areas.valueOf(args[2]);
-			RegistrationEvent regEvent = new RegistrationEvent(area, Type.ACTUATOR);
-			System.out.println("Atuador de Ventilação registado no sistema: " + regEvent);
-			
-			JFrame janela = new JFrame("Ventilador em "+area);
-			janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			return;
+		}	
+		
+		String ip = args[0];
+		int porto = Integer.parseInt(args[1]);
+		Areas area = Areas.valueOf(args[2].toUpperCase());
+
+		Light light = new Light(ip, porto, area);
 
 		
-			
-			// Criar os componentes gráficos
-			JPanel painel=new JPanel();
-			painel.setLayout(new BorderLayout());
-			LightIcon light = new LightIcon();
+		JFrame janela = new JFrame("Luz em " + area);
+		janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		JPanel painel=new JPanel();
+		painel.setLayout(new BorderLayout());
+		
+		log.setEditable(false);
+		JScrollPane logPane = new JScrollPane(log);
+		logPane.setPreferredSize(new Dimension(400, 100));
+		painel.add(logPane, BorderLayout.SOUTH);
+		
+		painel.add(lightIcon,BorderLayout.CENTER);
+		janela.setContentPane(painel);
+		janela.setLocation(600, 400);
+		janela.setMinimumSize(janela.getSize());
+		janela.pack();
+		janela.setVisible(true);
+		
+		light.runClient();
 
-			JTextArea log = new JTextArea();
-			log.setEditable(false);
-			JScrollPane logPane = new JScrollPane(log);
-			logPane.setPreferredSize(new Dimension(400, 100));
-			painel.add(logPane, BorderLayout.SOUTH);
-			
-			painel.add(light,BorderLayout.CENTER);
-			janela.setContentPane(painel);
-			janela.setLocation(600, 400);
-			janela.setMinimumSize(janela.getSize());
-			janela.pack();
-			janela.setVisible(true);
-			
-			Thread.sleep(5000);
-			light.setAtivo(true);
-
-			// TODO: receive and handle messages from server
-			
-			// appropriate event hardcoded locally and change the GUI accordingly
-			Thread.sleep(3000);
-			AreaLightingOrderEvent ordemLigar = new AreaLightingOrderEvent(area, true);
-			System.out.println("Evento de ordem recebido: " + ordemLigar);
-			log.append("Evento de ordem recebido: " + ordemLigar + "\n");
-			light.setAtivo(ordemLigar.isActive());
-			
-			Thread.sleep(4000);
-			AreaLightingOrderEvent ordemDesligar = new AreaLightingOrderEvent(area, false);
-			System.out.println("Evento de ordem recebido: " + ordemDesligar);
-			log.append("Evento de ordem recebido: " + ordemDesligar + "\n");
-			light.setAtivo(ordemDesligar.isActive());
-
-		}
 	}
 }

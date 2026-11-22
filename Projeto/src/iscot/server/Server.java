@@ -1,14 +1,12 @@
 package iscot.server;
 
-import iscot.enums.Areas;
 import iscot.enums.Type;
 import iscot.events.*;
-
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.net.Socket;
 
 public class Server {
     public static int PORTO;
@@ -17,6 +15,7 @@ public class Server {
 
 
     public static void main (String[] args) {
+        System.out.println("Inicializing Server...");
         PORTO = args.length > 0 ? Integer.parseInt(args[0]) : 8080;
         try {
             new Server().startServing();

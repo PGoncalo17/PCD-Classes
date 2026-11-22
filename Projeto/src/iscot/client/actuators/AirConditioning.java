@@ -7,10 +7,13 @@ import iscot.events.AreaTemperatureOrderEvent;
 import iscot.events.HighLevelOrderEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+
 
 public class AirConditioning extends ActuatorClient {
 	private static final JTextArea log = new JTextArea();
@@ -63,6 +66,13 @@ public class AirConditioning extends ActuatorClient {
 	
 		JFrame janela = new JFrame("Ventilador em "+area);
 		janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		janela.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    ac.closeConnection();
+                }
+            });
 
 		JPanel painel=new JPanel();
 		painel.setLayout(new BorderLayout());

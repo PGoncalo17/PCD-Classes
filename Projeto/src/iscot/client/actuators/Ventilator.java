@@ -6,6 +6,8 @@ import iscot.events.AreaVentilationOrderEvent;
 import iscot.events.HighLevelOrderEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -53,6 +55,13 @@ public class Ventilator extends ActuatorClient {
 
 		JFrame janela = new JFrame("Ventilador em " + area);
 		janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		janela.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    ventilator.closeConnection();
+                }
+            });
 
 		
 		JPanel painel=new JPanel();

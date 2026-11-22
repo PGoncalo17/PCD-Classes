@@ -2,42 +2,48 @@ package iscot.client.deciders;
 
 import iscot.enums.AirConditioningMode;
 import iscot.enums.Areas;
-import iscot.enums.Type;
 import iscot.events.AreaTemperatureOrderEvent;
-import iscot.events.RegistrationEvent;
+import iscot.events.SensorEvent;
 import iscot.events.TemepratureSensorEvent;
 
-public class TemperatureDecider {
+public class TemperatureDecider extends DeciderClient {
+
+    public TemperatureDecider(String ip, int porto, Areas area) {
+        super(ip, porto, area);
+    }
+
+    @Override
+    public void processSensorEvent(SensorEvent event) {
+        if (event instanceof TemepratureSensorEvent) {
+            TemepratureSensorEvent tempSensor = (TemepratureSensorEvent) event;
+            double temp = tempSensor.getTemperatureValue();
+            System.out.println("Recebido sensor de temperatura: " + temp + "Cº");
+
+            if (temp < 20) {
+                sendEvent(new AreaTemperatureOrderEvent(getArea(), AirConditioningMode.Aquecimento));
+            } else if (temp > 26){
+                sendEvent(new AreaTemperatureOrderEvent(getArea(), AirConditioningMode.Frio));
+            } else if (temp >= 22 && temp <= 24) {
+                sendEvent(new AreaTemperatureOrderEvent(getArea(), AirConditioningMode.Desligado));
+            } else {
+                sendEvent(new AreaTemperatureOrderEvent(getArea(), AirConditioningMode.Ventilacao));
+            }
+        }
+    }
+
     public static void main(String[] args) throws NumberFormatException, InterruptedException {
         if (args.length != 3){
             System.err.println("Invalid arguments!");
-        } else {
-            Areas area = Areas.valueOf(args[2]);
-            RegistrationEvent regEvent = new RegistrationEvent(area, Type.DECIDER);
-            System.out.println("Decisor de Ventilação registado: " + regEvent);
+            return;
+        } 
 
-            // Local Simulation - Change after connect client with server
-            Thread.sleep(3000);
-            TemepratureSensorEvent sensorEvent = new TemepratureSensorEvent(area, 28);
-            System.out.println("Leitura recebida: " + sensorEvent);
+        String ip = args[0];
+        int porto = Integer.parseInt(args[1]);
+        Areas area = Areas.valueOf(args[2].toUpperCase());
 
-            double temp = sensorEvent.getTemperatureValue();
-            AirConditioningMode mode; 
+        TemperatureDecider decider = new TemperatureDecider(ip, porto, area);
 
-            if (temp < 20) {
-                mode = AirConditioningMode.Aquecimento;
-            } else if (temp > 26){
-                mode = AirConditioningMode.Frio;
-            } else if (temp >= 22 && temp <= 24) {
-                mode = AirConditioningMode.Desligado;
-            } else {
-                mode = AirConditioningMode.Ventilacao;
-            }
-
-            AreaTemperatureOrderEvent ordem = new AreaTemperatureOrderEvent(area, mode);
-            System.out.println("Ordem emitida: " + ordem);
-
-        }
+        decider.runClient();
     }
     
 }

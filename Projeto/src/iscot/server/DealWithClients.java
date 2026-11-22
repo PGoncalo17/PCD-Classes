@@ -12,8 +12,8 @@ import java.net.Socket;
 import java.net.SocketException;
 
 public class DealWithClients extends Thread{
-    private Socket socket;
-    private Server server;
+    private final Socket socket;
+    private final Server server;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     private int clientId;

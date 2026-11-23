@@ -22,7 +22,7 @@ public class Light extends ActuatorClient {
 	}
 
 	@Override 
-	public void processOrderEvent(HighLevelOrderEvent order) {
+	public boolean processOrderEvent(HighLevelOrderEvent order) {
 		if (order instanceof AreaLightingOrderEvent areaLightingOrderEvent) {
 			AreaLightingOrderEvent lights = areaLightingOrderEvent;
 			if (lights.isActive()) {
@@ -36,7 +36,9 @@ public class Light extends ActuatorClient {
 				log.append("Evento de ordem recebido: " + ordemDesligar + "\n");
 				lightIcon.setAtivo(ordemDesligar.isActive());
 			}
+			return true;
 		}
+		return false;
 	}
 
 

@@ -23,7 +23,7 @@ public class Irrigation extends ActuatorClient {
 
 
 	@Override 
-	public void processOrderEvent(HighLevelOrderEvent order) {
+	public boolean processOrderEvent(HighLevelOrderEvent order) {
 		if (order instanceof AreaIrrigationOrderEvent areaIrrigationOrderEvent) {
 			AreaIrrigationOrderEvent irrigations = areaIrrigationOrderEvent;
 			if (irrigations.isActive()) {
@@ -37,7 +37,9 @@ public class Irrigation extends ActuatorClient {
 				log.append("Evento de ordem recebido: " + ordemDesligar + "\n");
 				irrigator.setAtivo(ordemDesligar.isActive());
 			}
+			return true;
 		}
+		return false;
 	}
 
 

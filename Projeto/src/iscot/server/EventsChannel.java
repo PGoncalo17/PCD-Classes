@@ -1,6 +1,8 @@
 package iscot.server;
 
 import iscot.events.Event;
+import iscot.events.HighLevelOrderEvent;
+import iscot.events.ReceptionConfirmationMessage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,14 @@ public class EventsChannel extends Thread {
         queue.addEvent(event);
     }
 
+    public synchronized void confirmExecution(ReceptionConfirmationMessage msg) {
+        System.out.println("[" + name + "] Confirmação recebida do dispositivo " + msg.getDeviceId() + " | Status: " + msg.getStatus());
+        if (currentLatch != null) {
+            currentLatch.countdown();
+            System.out.println("[" + name + "] Latch count após confirmação: " + currentLatch.getCount());
+        }
+    }
+
 
     @Override 
     public void run() {
@@ -50,14 +60,21 @@ public class EventsChannel extends Thread {
                     currentLatch = new ModifiedCountdownLatch(destinatedClients.size());
                     latch = currentLatch;
                 }
+
+                boolean isHighLevelOrder = currentEvent instanceof HighLevelOrderEvent;
+
                 System.out.println("\n[" + name + "] >>> NOVO EVENTO À CABEÇA DA FILA: " + currentEvent.getClass().getSimpleName() + " | Fila tem " + queue.size() + " evento(s).");
                 System.out.println("[" + name + "] Latch criado a esperar por " + destinatedClients.size() + " cliente(s).");
 
                 for (DealWithClients client : destinatedClients) {
                     try {
                         client.sendEvent(currentEvent);
-                        latch.countdown();
-                        System.out.println("[" + name + "] -> Enviado ao Cliente ID " + client.getClientId() + " | Latch count atual: " + latch.getCount());
+                        if (!isHighLevelOrder) {
+                            latch.countdown();
+                            System.out.println("[" + name + "] -> Enviado ao Cliente ID " + client.getClientId() + " | Latch count atual: " + latch.getCount());
+                        } else {
+                            System.out.println("[" + name + "] -> Ordem enviada ao Atuador ID " + client.getClientId() + ". A aguardar confirmação de execução...");
+                        }
                     } catch (Exception e) {
                         latch.countdown();
                         System.out.println("[" + name + "] -> Falha no Cliente ID " + client.getClientId() + " | Latch count atual: " + latch.getCount());

@@ -58,6 +58,11 @@ public abstract class Client {
       out.flush(); 
     }
 
+    protected synchronized void sendObject(Object obj) throws IOException {
+        out.writeObject(obj);
+        out.flush();
+    }
+
     protected abstract void execute() throws IOException, ClassNotFoundException; 
 
     protected Event receiveEvent() throws IOException, ClassNotFoundException {

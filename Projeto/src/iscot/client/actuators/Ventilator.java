@@ -23,7 +23,7 @@ public class Ventilator extends ActuatorClient {
 
 
 	@Override 
-	public void processOrderEvent(HighLevelOrderEvent order) {
+	public boolean processOrderEvent(HighLevelOrderEvent order) {
 		if (order instanceof AreaVentilationOrderEvent areaVentilationOrderEvent) {
 			AreaVentilationOrderEvent ventilators = areaVentilationOrderEvent;
 			if(ventilators.isActive()) {
@@ -37,7 +37,9 @@ public class Ventilator extends ActuatorClient {
 				log.append("Evento de ordem recebido: " + ordemDesligar + "\n");
 				ventilatorIcon.setAtivo(ordemDesligar.isActive());
 			}
+			return true;
 		}
+		return false;
 	}
 
 

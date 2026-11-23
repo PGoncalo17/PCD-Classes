@@ -1,7 +1,7 @@
 package iscot.server;
 
-import iscot.enums.Type;
 import iscot.enums.Areas;
+import iscot.enums.Type;
 import iscot.events.*;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -77,7 +77,7 @@ public class Server {
             }
     }
 
-    // Encaminhamento base (será substituído pelas filas e CountDownLatch nas fases 6 e 7)
+    
     public synchronized void routeEvent(Event event) {
        EventsChannel destinatedChannel = null;
 
@@ -94,6 +94,13 @@ public class Server {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+        }
+    }
+
+    public void handleConfirmation(Areas area, ReceptionConfirmationMessage msg) {
+        EventsChannel channel = channels.get(generateKey(Type.ACTUATOR, area));
+        if (channel != null) {
+            channel.confirmExecution(msg);
         }
     }
                 

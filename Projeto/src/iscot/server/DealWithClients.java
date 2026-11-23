@@ -3,6 +3,7 @@ package iscot.server;
 import iscot.enums.Areas;
 import iscot.enums.Type;
 import iscot.events.Event;
+import iscot.events.ReceptionConfirmationMessage;
 import iscot.events.RegistrationEvent;
 import java.io.EOFException;
 import java.io.IOException;
@@ -91,6 +92,10 @@ public class DealWithClients extends Thread{
                 Event event = (Event) obj;
                 System.out.println("Recebido de ID " + clientId + ": " + event);
                 server.routeEvent(event);
+            } else if (obj instanceof ReceptionConfirmationMessage) {
+                ReceptionConfirmationMessage msg = (ReceptionConfirmationMessage) obj;
+                System.out.println("Confirmação recebida de ID " + clientId + ": " + msg);
+                server.handleConfirmation(this.clientArea, msg);
             }
         }
     }

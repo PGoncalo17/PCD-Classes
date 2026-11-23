@@ -25,7 +25,7 @@ public class AirConditioning extends ActuatorClient {
 
 
 	@Override
-	public void processOrderEvent(HighLevelOrderEvent order) {
+	public boolean processOrderEvent(HighLevelOrderEvent order) {
 		if (order instanceof AreaTemperatureOrderEvent areaTemperatureOrderEvent) {
 			AreaTemperatureOrderEvent acs = areaTemperatureOrderEvent;
 			if(acs.getMode() == AirConditioningMode.Aquecimento){
@@ -49,7 +49,9 @@ public class AirConditioning extends ActuatorClient {
 				log.append("Evento de ordem recebido: " + ordemDesligar + "\n");
 				acIcon.setModo(ordemDesligar.getMode());
 			}
+			return true;
 		}
+		return false;
 	}
 
 	public static void main(String[] args) throws NumberFormatException {

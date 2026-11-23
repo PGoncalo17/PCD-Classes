@@ -18,7 +18,7 @@ public class AreaLightingOrderEvent extends HighLevelOrderEvent {
 
     @Override
     public String toString() {
-        String state = active ? "TURN ON" : "TURN OF";
+        String state = active ? "TURN ON" : "TURN OFF";
         return "[LIGHTING ORDER] " + super.toString() + " | ACTION: " + state;
     }
 }

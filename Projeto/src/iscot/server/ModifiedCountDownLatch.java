@@ -1,10 +1,14 @@
 package iscot.server;
 
-public class ModifiedCountDownLatch {
+public class ModifiedCountdownLatch {
     private int count;
 
-    public ModifiedCountDownLatch(int count) {
+    public ModifiedCountdownLatch(int count) {
         this.count = count;
+    }
+
+    public synchronized int getCount() {
+        return count;
     }
 
     public synchronized void countdown() {
@@ -23,6 +27,7 @@ public class ModifiedCountDownLatch {
             if (remaining <= 0) {
                 break;
             }
+            wait(remaining);
         }
     }
 }
